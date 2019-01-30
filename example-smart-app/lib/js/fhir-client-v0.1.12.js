@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+if(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -17171,7 +17171,7 @@ BBClient.ready = function(input, callback, errback){
 
   var accessTokenResolver = null;
 
-  if (true) {
+  if (isFakeOAuthToken()) {
     accessTokenResolver = completePageReload();
     // In order to remove the state query parameter in the URL, both replaceBrowserHistory
     // and fullSessionStorageSupport setting flags must be set to true. This allows querying the state
@@ -17637,88 +17637,4 @@ var _guid = function () {
   var currentDateMilliseconds = new Date().getTime();
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (currentChar) {
     var randomChar = (currentDateMilliseconds + Math.random() * 16) % 16 | 0;
-    currentDateMilliseconds = Math.floor(currentDateMilliseconds / 16);
-    return (currentChar === 'x' ? randomChar : (randomChar & 0x7 | 0x8)).toString(16);
-  });
-};
-
-var create = function () {
-  var hasCrypto = typeof (window.crypto) != 'undefined',
-  hasRandomValues = hasCrypto && typeof (window.crypto.getRandomValues) != 'undefined';
-  return (hasCrypto && hasRandomValues) ? _cryptoGuid() : _guid();
-};
-
-module.exports =  {
-  newGuid: create,
-  empty: EMPTY
-};
-
-},{}],50:[function(require,module,exports){
-var utils = module.exports =  {};
-
-utils.byCodes = function(observations, property){
-
-  var bank = utils.byCode(observations, property);
-  function byCodes(){
-    var ret = [];
-    for (var i=0; i<arguments.length;i++){
-      var set = bank[arguments[i]];
-      if (set) {[].push.apply(ret, set);}
-    }
-    return ret;
-  }
-
-  return byCodes;
-};
-
-utils.byCode = function(observations, property){
-  var ret = {};
-  if (!Array.isArray(observations)){
-    observations = [observations];
-  }
-  observations.forEach(function(o){
-    if (o.resourceType === "Observation"){
-      if (o[property] && Array.isArray(o[property].coding)) {
-        o[property].coding.forEach(function (coding){
-          ret[coding.code] = ret[coding.code] || [];
-          ret[coding.code].push(o);
-        });
-      }
-    }
-  });
-  return ret;
-};
-
-function ensureNumerical(pq) {
-  if (typeof pq.value !== "number") {
-    throw "Found a non-numerical unit: " + pq.value + " " + pq.code;
-  }
-};
-
-utils.units = {
-  cm: function(pq){
-    ensureNumerical(pq);
-    if(pq.code == "cm") return pq.value;
-    if(pq.code == "m") return 100*pq.value;
-    if(pq.code == "in") return 2.54*pq.value;
-    if(pq.code == "[in_us]") return 2.54*pq.value;
-    if(pq.code == "[in_i]") return 2.54*pq.value;
-    throw "Unrecognized length unit: " + pq.code
-  },
-  kg: function(pq){
-    ensureNumerical(pq);
-    if(pq.code == "kg") return pq.value;
-    if(pq.code == "g") return pq.value / 1000;
-    if(pq.code.match(/lb/)) return pq.value / 2.20462;
-    if(pq.code.match(/oz/)) return pq.value / 35.274;
-    throw "Unrecognized weight unit: " + pq.code
-  },
-  any: function(pq){
-    ensureNumerical(pq);
-    return pq.value
-  }
-};
-
-
-
-},{}]},{},[44]);
+    currentD
